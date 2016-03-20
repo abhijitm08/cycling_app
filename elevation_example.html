@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Showing elevation along a path</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+    <script src="https://www.google.com/jsapi"></script>
+  </head>
+  <body>
+    <div>
+      <div id="map" style="height:250px;"></div>
+      <div id="elevation_chart"></div>
+      <script type="text/javascript" src="elevation.js"></script>
+    <script async defer
+      src='https://maps.googleapis.com/maps/api/js?key=This is where API Key Goes&callback=initMap'>
+      </script>
+    </div>
+  </body>
+</html>
