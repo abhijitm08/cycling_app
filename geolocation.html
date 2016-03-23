@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Finding LatLong from address</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="geolocation.css">
+	</head>
+	<body>
+		<div id="floating-panel">
+			From: <input type="textbox" id="address" value="Brighton, UK"><br />
+			To: <input type="textbox" id="address2" value="Brighton, UK">
+			<input type="button" value="submit" id="submit"><br />
+			<input type="textbox" value="" id="latlong">
+			<input type="textbox" value="" id="latlong2">
+		</div>
+		<div id="map"></div>
+		<script type="text/javascript" src="center_map.js"></script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbgf9_w1IwN8DRTJiKSi2ujJ65zV-3fyM&callback=initMap"></script>
+
+	</body>
+</html>
