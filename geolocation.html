@@ -4,6 +4,7 @@
 		<title>Finding LatLong from address</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="geolocation.css">
+		<script src="https://www.google.com/jsapi"></script>
 	</head>
 	<body>
 		<div id="floating-panel">
@@ -14,9 +15,10 @@
 			<input type="textbox" value="" id="latlong2">
 		</div>
 		<div id="map"></div>
+		<div id="elevation_chart"></div>
 		<script type="text/javascript" src="center_map.js"></script>
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbgf9_w1IwN8DRTJiKSi2ujJ65zV-3fyM
-&callback=initMap"></script>
+&v=3&callback=initMap"></script>
 
 	</body>
 </html>

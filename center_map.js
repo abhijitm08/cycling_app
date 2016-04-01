@@ -1,120 +1,124 @@
+// Load the Visualization API and the columnchart package.
+google.load('visualization', '1', {packages: ['columnchart']});
+
 function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 2,
-          center: {lat: 50.82253, lng: -0.13716}
-        });
 
-        var bounds = new google.maps.LatLngBounds();
-        var geocoder1 = new google.maps.Geocoder();
-        var geocoder2 = new google.maps.Geocoder();
-        var address1 = document.getElementById('address1').value;
-        var address2 = document.getElementById('address2').value;
-        var latlong1 = document.getElementById('latlong1');
-        var latlong2 = document.getElementById('latlong2');
+  //initialise map
+ 	var map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 8,
+   		center: {lat: 50.82253, lng: -0.13716}
+ 	});
 
-        document.getElementById('submit').addEventListener('click', function() {
-          geocodeAddress(geocoder2, map, address2, latlong2, function(addrs2) { bounds.extend(addrs2);});
-          geocodeAddress(geocoder1, map, address1, latlong1, function(addrs1) { bounds.extend(addrs1);});
-          //geocodeAddress(geocoder1, map, address1, latlong1, function(latlng1) { bounds.extend(); alert(addr1); console.log(addr1);});
-          //geocodeAddress(geocoder2, map, address2, latlong2, function(latlng2) { alert(addr2); console.log(addr2);});
-          map.fitBounds(bounds);
-        });
- }
+  var poly;
 
-      //function geocodeAddress(Geocoder1, Geocoder2, resultsMap, callback) {
-      function geocodeAddress(Geocoder, resultsMap, address, latlong, callback) {
+	var marker1 = new google.maps.Marker;
+	var marker2 = new google.maps.Marker;
 
-	//var loc1lat;
-	//var loc1lng;
-	//var loc2lat;
-	//var loc2lng;
+	var geocoder1 = new google.maps.Geocoder();
+  var geocoder2 = new google.maps.Geocoder();
 
-        //var address = document.getElementById('address').value;
-        Geocoder.geocode({'address': address}, function(results, status) {
-          if (status === google.maps.GeocoderStatus.OK) {
+  var address1, address2;
 
-            var marker = new google.maps.Marker();
-            marker.setMap(resultsMap);
-            marker.setPosition(results[0].geometry.location);
+	var latlong1 = document.getElementById('latlong1');
+	var latlong2 = document.getElementById('latlong2');
+	//Clear lat long box on load
+	latlong1.value = "";
+	latlong2.value = "";
+ 
 
-            //latlong.value = results[0].geometry.location;
-            //bounds.extend(marker.getPosition());
+ 	document.getElementById('submit').addEventListener('click', function() {
+    //Get input from user when bttn clicked
+ 		address1 = document.getElementById('address1').value;
+		address2 = document.getElementById('address2').value;
+    //Turn input into lat long, set markers
+    var bounds = new google.maps.LatLngBounds();
+    //poly.setMap(null);
+    success(geocoder2, map, address2, latlong2, marker2, geocoder1, address1, latlong1, marker1, bounds);
+    });
+}
 
-	    //callback(marker.getPosition());
-          }
-          else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-          
-          //var latlong1 = document.getElementById('latlong1');
-          latlong.value = results[0].geometry.location;
-	  callback(results[0].geometry.location);
-          //loc1lat = results1[0].geometry.location.lat();
-	  //loc1lng = results1[0].geometry.location.lng();
-        });	
+function geocodeAddress(Geocoder, resultsMap, address, latlong, marker, callback) {
 
-        //var address2 = document.getElementById('address2').value;
-        //Geocoder2.geocode({'address': address2}, function(results2, status) {
-        //  if (status === google.maps.GeocoderStatus.OK) {
-        //    var marker2 = new google.maps.Marker();
-        //    marker2.setMap(resultsMap);
-        //    marker2.setPosition(results2[0].geometry.location);
-	//    callback(results1[0].geometry.location);
-        //  }
-        //  else {
-        //    alert('Geocode was not successful for the following reason: ' + status);
-        //  }
-        //    var latlong2 = document.getElementById('latlong2');
-	//    latlong2.value = results2[0].geometry.location;
-        //    //loc2lat = results2[0].geometry.location.lat();
-        //    //loc2lng = results2[0].geometry.location.lng();
-        //});
-
-	//console.log(results2[0].geometry.location.lat());
-	//console.log(results2[0].geometry.location.lng());
-	//console.log(results1[0].geometry.location.lat());
-	//console.log(results1[0].geometry.location.lng());
-
-        //bounds.extend(marker1.getPosition());
-	//bounds.extend(marker2.getPosition());
-        //resultsMap.fitBounds(bounds);
-
-	//resultsMap.fitBounds(new google.maps.LatLngBounds(
-	//			  //bottom left: Boston
-	//			  new google.maps.LatLng(42.3600825, -71.05888010000001),
-	//			  //top right: Munich
-	//			  new google.maps.LatLng(48.1351253, 11.581980599999952)
-	//			));
-
-	/*console.log(loc1lat);
-	console.log(loc1lng);
-	console.log(loc2lat);
-	console.log(loc2lng);
-        var test1 = new google.maps.LatLng(loc1lat, loc1lng);
-        var test2 = new google.maps.LatLng(loc2lat, loc2lng);
-	//test1 = marker1.getPosition();
-	//test2 = marker2.getPosition();
-	console.log(test1.lat());
-	console.log(test1.lng());
-	console.log(test2.lat());
-	console.log(test2.lng());*/
-
-	//resultsMap.fitBounds(new google.maps.LatLngBounds(
-	//			  //bottom left: Boston
-	//			  marker2.getPosition(),
-	//			  //top right: Munich
-	//			  marker1.getPosition()
-	//			));
-
-        //var listener = google.maps.event.addListener(resultsMap, 'idle', function(bounds){
-        //	resultsMap.fitBounds(bounds);
-        //	google.maps.event.removeListener(listener);
-        //});
-
-	//(optional) restore the zoom level after the map is done scaling
-	//var listener = google.maps.event.addListener(resultsMap, "idle", function () {
-	//	    map.setZoom(2);
-	//	    google.maps.event.removeListener(listener);
-
-	//});
+    Geocoder.geocode({'address': address}, function(results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+       	marker.setMap(resultsMap);
+        marker.setPosition(results[0].geometry.location);
+        callback(marker.position);
       }
+      else {
+            alert('Geocode was not successful for the following reason: ' + status);
+      }
+      //put latlong on page
+     	latlong.value = results[0].geometry.location;
+	  })
+}
+
+function success(geocoder2, map, address2, latlong2, marker2, geocoder1, address1, latlong1, marker1, bounds){
+    var path = [];
+    // poly.setMap(null);
+    var elevator = new google.maps.ElevationService;
+    geocodeAddress(geocoder2, map, address2, latlong2, marker2, function(position){
+      console.log("callback called " + position); 
+      bounds.extend(position);
+      path[0] = {lat: position.lat(), lng: position.lng()};
+      geocodeAddress(geocoder1, map, address1, latlong1, marker1, function(position){
+        console.log("callback called " + position); 
+        bounds.extend(position);
+        path[1] = {lat: position.lat(), lng: position.lng()};
+        // Draw the path, using the Visualization API and the Elevation service.
+        displayPathElevation(path, elevator, map);
+        //fit map to markers
+        map.fitBounds(bounds);
+      });
+    });
+  }
+
+function displayPathElevation(path, elevator, map) {
+  // Display a polyline of the elevation path.
+  poly = new google.maps.Polyline({
+    path: path,
+    strokeColor: '#0000CC',
+    opacity: 0.4,
+    map: map
+  });
+
+  // Create a PathElevationRequest object using this array.
+  // Ask for 256 samples along that path.
+  // Initiate the path request.
+  elevator.getElevationAlongPath({
+    'path': path,
+    'samples': 256
+  }, plotElevation);
+}
+
+// Takes an array of ElevationResult objects, draws the path on the map
+// and plots the elevation profile on a Visualization API ColumnChart.
+function plotElevation(elevations, status) {
+  var chartDiv = document.getElementById('elevation_chart');
+  if (status !== google.maps.ElevationStatus.OK) {
+    // Show the error code inside the chartDiv.
+    chartDiv.innerHTML = 'Cannot show elevation: request failed because ' +
+        status;
+    return;
+  }
+  // Create a new chart in the elevation_chart DIV.
+  var chart = new google.visualization.ColumnChart(chartDiv);
+
+  // Extract the data from which to populate the chart.
+  // Because the samples are equidistant, the 'Sample'
+  // column here does double duty as distance along the
+  // X axis.
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'Sample');
+  data.addColumn('number', 'Elevation');
+  for (var i = 0; i < elevations.length; i++) {
+    data.addRow(['', elevations[i].elevation]);
+  }
+
+  // Draw the chart using the data within its DIV.
+  chart.draw(data, {
+    height: 150,
+    legend: 'none',
+    titleY: 'Elevation (m)'
+  });
+}
