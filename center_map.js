@@ -12,7 +12,7 @@ function initMap() {
 	var geocoder1 = new google.maps.Geocoder();
   var geocoder2 = new google.maps.Geocoder();
 
-  var bounds = new google.maps.LatLngBounds();
+  // var bounds = new google.maps.LatLngBounds();
 
   var address1, address2;
 
@@ -28,6 +28,7 @@ function initMap() {
  		address1 = document.getElementById('address1').value;
 		address2 = document.getElementById('address2').value;
     //Turn input into lat long, set markers
+    var bounds = new google.maps.LatLngBounds();
     success(geocoder2, map, address2, latlong2, marker2, geocoder1, address1, latlong1, marker1, bounds);
     });
 }
