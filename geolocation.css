@@ -5,10 +5,12 @@ html, body {
       }
       #map {
         height: 70%;
+        width: 80%;
+        margin: 0 auto 0 auto;
       }
       #floating-panel {
         position: absolute;
-        top: 10px;
+        top: 80%;
         left: 25%;
         z-index: 5;
         background-color: #fff;

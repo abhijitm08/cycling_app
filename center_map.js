@@ -12,6 +12,8 @@ function initMap() {
 	var geocoder1 = new google.maps.Geocoder();
   var geocoder2 = new google.maps.Geocoder();
 
+  var bounds = new google.maps.LatLngBounds();
+
   var address1, address2;
 
 	var latlong1 = document.getElementById('latlong1');
@@ -26,90 +28,35 @@ function initMap() {
  		address1 = document.getElementById('address1').value;
 		address2 = document.getElementById('address2').value;
     //Turn input into lat long, set markers
- 	  geocodeAddress(geocoder2, map, address2, latlong2, marker1);
-		geocodeAddress(geocoder1, map, address1, latlong1, marker2);
-  //   //Center map (only working on second click)
-		centerMap(map, marker1, marker2);
-    //getLatLong(geocoder1, map, address1, latlong1, marker1, geocoder2, address2, latlong2, marker2, callback);
-	});
+    success(geocoder2, map, address2, latlong2, marker2, geocoder1, address1, latlong1, marker1, bounds);
+    });
 }
 
-function geocodeAddress(Geocoder, resultsMap, address, latlong, marker) {
+function geocodeAddress(Geocoder, resultsMap, address, latlong, marker, callback) {
 
     Geocoder.geocode({'address': address}, function(results, status) {
       if (status === google.maps.GeocoderStatus.OK) {
        	marker.setMap(resultsMap);
         marker.setPosition(results[0].geometry.location);
+        callback(marker.position);
       }
-       else {
+      else {
             alert('Geocode was not successful for the following reason: ' + status);
       }
       //put latlong on page
      	latlong.value = results[0].geometry.location;
-	});	
-  //callback(marker.position);
+	  })
 }
 
-function centerMap (map, marker1, marker2) {
-  //create new bounds
-  var bounds = new google.maps.LatLngBounds();
-  console.log(marker1.position);
-  console.log(marker2.position);
-  //extend bounds to marker positions
-  bounds.extend(marker1.position);
-  bounds.extend(marker2.position);
-  //fit map to new bounds
-  map.fitBounds(bounds);
-  //callback(marker.position);
-}
-
-//function(addrs2) { bounds.extend(addrs2);
-  //callback(marker.position);
-
-//   //use two callback functions
-//   function printList(callback) {
-//   // do your printList work
-//   console.log('printList is done');
-//   callback();
-// }
-
-// function updateDB(callback) {
-//   // do your updateDB work
-//   console.log('updateDB is done');
-//   callback()
-// }
-
-// function getDistanceWithLatLong(callback) {
-//   // do your getDistanceWithLatLong work
-//   console.log('getDistanceWithLatLong is done');
-//   callback();
-// }
-
-// function runSearchInOrder(callback) {
-//     getDistanceWithLatLong(function() {
-//         updateDB(function() {
-//             printList(callback);
-//         });
-//     });
-// }
-
-// runSearchInOrder(function(){console.log('finished')});
-
-// getDistanceWithLatLong is done
-// updateDB is done
-// printList is done
-// finished 
-
-    // geocodeAddress(geocoder2, map, address2, latlong2, marker1);
-    // geocodeAddress(geocoder1, map, address1, latlong1, marker2);
-    // //Center map (only working on second click)
-    // centerMap(map, marker1, marker2);
-
-    /*function getLatLong (callback) {
-      geocodeAddress(function(){
-        geocodeAddress(function(){
-          centerMap(map, marker1, marker2, callback);
-        });
+function success(geocoder2, map, address2, latlong2, marker2, geocoder1, address1, latlong1, marker1, bounds){
+    geocodeAddress(geocoder2, map, address2, latlong2, marker2, function(position){
+      console.log("callback called " + position); 
+      bounds.extend(position);
+      geocodeAddress(geocoder1, map, address1, latlong1, marker1, function(position){
+        console.log("callback called " + position); 
+        bounds.extend(position);
+        console.log(bounds);
+        map.fitBounds(bounds);
       });
-    }*/
-    //getLatLong();
+    });
+  }
